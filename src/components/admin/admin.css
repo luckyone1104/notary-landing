@@ -1,0 +1,88 @@
+.admin {
+  width: 100%;
+}
+
+.admin__container {
+  max-width: 720px;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.accordion__category-wrapper {
+  overflow: hidden;
+}
+
+.admin__add-category-link {
+  display: block;
+  background-color: #dff5c3;
+  border: none;
+  color: inherit;
+  text-decoration: none;
+  text-align: center;
+}
+
+.admin__add-category-link,
+.accordion__button {
+  width: 100%;
+  font-size: 1.25rem;
+  padding: 0.75rem;
+}
+
+.admin__buttons-wrapper {
+  margin: 36px 0;
+}
+
+.admin__go-home-link {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #a7a7a7;
+  text-decoration: none;
+}
+
+.admin__go-home-link:hover {
+  color: #a7a7a7;
+  text-decoration: underline;
+}
+
+.admin__save-button {
+  background-color: #dff5c3;
+  color: inherit;
+  border: none;
+}
+
+.admin__save-button:hover,
+.admin__save-button:active,
+.admin__save-button:focus {
+  color: inherit;
+  background-color: #cbe2ad;
+}
+
+.admin__save-button:focus {
+  box-shadow: 0 0 0 0.25rem rgb(46 119 51 / 29%);
+}
+
+.admin__save-button:active:focus {
+  box-shadow: 0 0 0 0.25rem rgb(111 167 125 / 50%) !important;
+}
+
+.admin__save-button:disabled {
+  color: #000;
+  background-color: #e6e6e6;
+}
+
+@media screen and (min-width: 721px) {
+  .admin__container {
+    border: 1px solid #ccc;
+  }
+}
+
+@media screen and (min-width: 978px) and (orientation: landscape) {
+  .admin__container img {
+    transform: scale(1);
+    transition: transform ease-in-out 0.14s;
+  }
+  
+  .admin__container img:hover {
+    transform: scale(1.2);
+  }
+}

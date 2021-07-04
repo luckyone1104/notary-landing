@@ -1,0 +1,127 @@
+.photo-and-name__wrapper {
+  min-height: 100vh;
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-and-name__img-container {
+  width: 100%;
+}
+
+.photo-and-name__img {
+  width: 100%;
+}
+
+.photo-and-name__text-wrapper {
+  width: 100%;
+  height: 47vh;
+  min-height: 320px;
+  position: absolute;
+  bottom: 0;
+  padding: 12% 7% 7%;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  background-color: #fff;
+  box-shadow: 0 7px 20px 0px rgb(34 60 80 / 54%);
+}
+
+.photo-and-name__name-wrapper {
+  font-size: 2rem;
+  transition: font-size 0.2s ease-in-out;
+}
+
+.photo-and-name__notary-subtitle {
+  text-align: right;
+  font-size: 1.3rem;
+  color: #6C6C6C;
+  margin: 0;
+
+  transition: font-size 0.2s ease-in-out;
+}
+
+.photo-and-name__notary-text {
+  margin-top: 8px;
+  font-size: 1.3rem; /* 1.75rem */
+  color: #6C6C6C;
+  text-align: right;
+}
+
+/***** SMARTPHONES and bigger *****/
+@media screen and (orientation: landscape) and (min-width: 320px) {
+  .photo-and-name__wrapper {
+    min-height: 200vh;
+  }
+}
+
+/***** TABLETS and bigger *****/
+@media screen and (min-width: 570px) {
+  .photo-and-name__wrapper {
+    padding: 0 7%;
+  }
+
+  .photo-and-name__container {
+    min-height: 100vh;
+    padding: 5.4rem 0 2rem 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+  .photo-and-name__text-wrapper {
+    width: 100%;
+    height: auto;
+    position: static;
+    padding: 0 7%;
+    box-sizing: border-box;
+
+    border-radius: unset;
+    box-shadow: none;
+  }
+
+  .photo-and-name__img {
+    border-radius: 1.25rem;
+    box-shadow: 0 0 20px 0 rgb(34 60 80 / 12%);
+  }
+}
+
+@media screen and (orientation: landscape) and (min-width: 570px) {
+  .photo-and-name__wrapper {
+    min-height: 100vh;
+  }
+
+  .photo-and-name__text-wrapper {
+    width: 50%;
+  }
+
+  .photo-and-name__img-container {
+    width: 50%;
+    box-sizing: border-box;
+  }
+
+  .photo-and-name__container {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@media screen and (orientation: portrait) and (min-width: 570px) {
+  .photo-and-name__img-container {
+    width: 40%;
+    margin: 0 auto;
+  }
+}
+
+/***** SMALL DESKTOPS and bigger *****/
+@media screen and (min-width: 992px) {
+  .photo-and-name__notary-img-wrapper {
+    max-width: 420px;
+  }
+}

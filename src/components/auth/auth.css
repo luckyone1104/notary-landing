@@ -1,0 +1,28 @@
+.auth {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+
+  background-color: #d2e4ff;
+}
+
+.auth__login {
+  min-height: 360px;
+  min-width: 480px;
+
+  padding: 64px 32px 32px;
+  box-sizing: border-box;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+
+  border-radius: 20px;
+  background-color: #fff;
+}
+
+.auth__login__submit {
+  margin-top: 24px;
+  float: right;
+}

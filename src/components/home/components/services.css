@@ -1,0 +1,22 @@
+.services {
+  background-color: #D5FFE8;
+  min-height: 100vh;
+  padding: 4rem 7% 48px 7%;
+  box-sizing: border-box;
+}
+
+.services__title {
+  font-size: 2rem;
+  margin: 4rem 0 1.5rem 0;
+}
+
+.services__go-to-admin-page-link {
+  display: block;
+  text-align: center;
+  margin-top: 32px;
+  text-decoration: none;
+}
+
+.services__go-to-admin-page-link:hover {
+  text-decoration: underline;
+}

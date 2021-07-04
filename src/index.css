@@ -1,0 +1,79 @@
+/* ======================================================= */
+/* ====================== FONTS ========================== */
+/* ======================================================= */
+
+@font-face {
+  font-family: 'e-Ukraine';
+  src: url('./assets/fonts/e-Ukraine/e-Ukraine-Regular.ttf') format("truetype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'e-Ukraine'; 
+  src: url('./assets/fonts/e-Ukraine/e-Ukraine-Light.ttf') format("truetype"); 
+  font-weight: 300;
+
+}
+@font-face {
+  font-family: 'e-Ukraine'; 
+  src: url('./assets/fonts/e-Ukraine/e-Ukraine-Thin.ttf') format("truetype");
+  font-weight: 200;
+}
+
+/* ======================================================= */
+/* ====================== COMMON ========================= */
+/* ======================================================= */
+
+body {
+  margin: 0;
+  font-family: 'e-Ukraine', 'Roboto';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.content-container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 900px;
+}
+
+.block-shadow {
+  box-shadow: 0 0 20px 0 rgb(34 60 80 / 12%);
+}
+
+button:disabled {
+  pointer-events: visible !important;
+  cursor: not-allowed;
+}
+
+/* ======================================================= */
+/* ================= MEDIA QUERIES ======================= */
+/* ======================================================= */
+
+/***** TINY SCREENS  *****/
+@media screen and (max-width: 320px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/***** SMARTPHONES and bigger *****/
+@media screen and (min-width: 320px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/***** TABLETS and bigger *****/
+@media screen and (min-width: 570px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/***** WIDE DESKTOPS and bigger *****/
+@media screen and (min-width: 1200px) {
+  /* COMMON */
+  .content-container {
+    max-width: 992px;
+  }
+}

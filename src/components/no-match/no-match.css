@@ -1,0 +1,20 @@
+.no-match {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: thistle;
+}
+
+.no-match__title {
+  font-weight: 800;
+  font-size: 48px;
+}
+
+.no-match__description {
+  font-size: 22px;
+}

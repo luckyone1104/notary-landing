@@ -1,0 +1,17 @@
+.service-editing__wrapper {
+  padding: 2rem;
+}
+
+.service-editing__buttons-wrapper {
+  margin-top: 3rem;
+}
+
+.service-editing__delete-button {
+  border: none;
+  color: #e07373;
+  background-color: inherit;
+}
+
+.service-editing__delete-button:hover {
+  text-decoration: underline;
+}

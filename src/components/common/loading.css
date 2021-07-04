@@ -1,0 +1,16 @@
+.loading__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: inherit;
+}
+
+.loading__wrapper_container-size {
+  width: 100%;
+  height: 100%;
+}
+
+.loading__wrapper_window-size {
+  width: 100vw;
+  height: 100vh;
+}

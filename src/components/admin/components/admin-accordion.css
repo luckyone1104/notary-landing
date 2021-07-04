@@ -1,0 +1,90 @@
+.accordion__button {
+  display: grid;
+  grid-template-columns: 2rem auto 3.75rem;
+  background-color: #fff;
+  text-align: left;
+  border: none;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.admin__add-category-link:hover,
+.accordion__button:hover {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.accordion__pencil-svg-wrapper {
+  margin: auto 0;
+}
+
+.accordion__category-arrow:nth-child(2n) {
+  margin-left: 0.7rem;
+}
+
+.accordion__content {
+  transition: max-height 0.2s ease-in-out;
+  max-height: 0;
+}
+
+.accordion__add-item-link {
+  display: block;
+  background-color: #dff5c3;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #e8e8e8;
+  color: inherit;
+  text-decoration: none;
+  text-align: center;
+}
+
+.accordion__add-item-link:hover {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.accordion__add-item-link,
+.accordion__item {
+  padding: 0.6rem;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.accordion__item {
+  display: grid;
+  grid-template-columns: auto 48px;
+}
+
+.accordion__item:nth-child(2n - 1) {
+  background-color: #ececec;
+}
+
+.accordion__item-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.accordion__item-link:hover {
+  color: inherit;
+}
+
+.accordion__item-name:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.accordion__arrows-wrapper {
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.accordion__arrow {
+  margin-left: 0.5rem;
+}
+
+.accordion__arrow:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
