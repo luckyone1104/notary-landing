@@ -6,13 +6,10 @@ import telephoneIcon from '../../../assets/images/tel-icon.svg';
 
 export default function Header() {
   function handleClickOnLocation() {
-    const locationElement = document.querySelector('.location');
-
-    if (locationElement)
-      window.scrollTo({
-        top: locationElement.offsetTop,
-        behavior: 'smooth',
-      });
+    window.scrollTo({
+      top: document.querySelector('.location')?.offsetTop,
+      behavior: 'smooth',
+    });
   }
 
   return (
