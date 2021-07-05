@@ -1,8 +1,8 @@
 import './location.css';
 
-export default function Location(props) {
+export default function Location() {
   return (
-    <div ref={props.location} className="location">
+    <div className="location">
       <div className="content-container">
         <div className="location__title">Соборна площа, 8</div>
 

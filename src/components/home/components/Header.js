@@ -4,11 +4,13 @@ import './header.css';
 import locationPinIcon from '../../../assets/images/pin.svg';
 import telephoneIcon from '../../../assets/images/tel-icon.svg';
 
-export default function Header(props) {
+export default function Header() {
   function handleClickOnLocation() {
-    if (props.location.current)
+    const locationElement = document.querySelector('.location');
+
+    if (locationElement)
       window.scrollTo({
-        top: props.location.current.offsetTop,
+        top: locationElement.offsetTop,
         behavior: 'smooth',
       });
   }
