@@ -1,3 +1,4 @@
+import React from 'react';
 import './admin-accordion.css';
 import arrowUp from '../../../assets/images/arrow-up.svg';
 import arrowDown from '../../../assets/images/arrow-down.svg';
@@ -5,7 +6,7 @@ import pencil from '../../../assets/images/pencil.svg';
 
 import { Link } from 'react-router-dom';
 
-export default function AdminAccordion(props) {
+export default React.memo(function AdminAccordion(props) {
   function handleClick(e) {
     if (e.target.hasAttribute('collapse')) {
       collapse(e.target);
@@ -66,7 +67,7 @@ export default function AdminAccordion(props) {
       {/*Empty div makes it posiible for element to move into the last position*/}
     </div>
   );
-}
+});
 
 function AccardionCategory(props) {
   const { category } = props;

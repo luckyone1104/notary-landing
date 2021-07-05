@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useDatabase } from '../../../contexts/DatabaseContext';
 import AdminAccordion from './AdminAccordion';
@@ -8,6 +9,7 @@ import Loading from '../../common/Loading';
 export default function ServiceList() {
   const [loading, setLoading] = useState(false);
   const [listModified, setListModified] = useState(false);
+  const prevListState = useRef();
   const { serviceList, fetchServiceList, updateServiceList } = useDatabase();
 
   async function handleClick() {
@@ -18,13 +20,14 @@ export default function ServiceList() {
     setListModified(false);
   }
 
-  function checkIfListIsModified() {
+  const checkIfListIsModified = useCallback(() => {
     const isModified =
       JSON.stringify(serviceList) !==
       JSON.stringify(getReorderedList(serviceList, getDOMList()));
 
-    setListModified(isModified);
-  }
+    if (prevListState.current !== isModified) setListModified(isModified);
+    prevListState.current = isModified;
+  }, []);
 
   function getDOMList() {
     const categories = document.querySelectorAll(
