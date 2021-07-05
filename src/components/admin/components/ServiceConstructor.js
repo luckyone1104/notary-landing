@@ -20,11 +20,11 @@ export default function ServiceConstructor(props) {
 
   const isEditMode = props.match.params.action === 'edit';
 
+  const [modalProps, setModalProps] = useState();
   const [modalShow, setModalShow] = useState(false);
   const [formValuesModified, setFormValuesModified] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const modalProps = useRef();
   const inputValuesModified = useRef(false);
   const textareaValuesModified = useRef(false);
   const titleInput = useRef();
@@ -60,7 +60,7 @@ export default function ServiceConstructor(props) {
   };
 
   function handleDeleteClick() {
-    modalProps.current = modalPropsOnDelete;
+    setModalProps(modalPropsOnDelete);
     setModalShow(true);
   }
 
@@ -72,7 +72,7 @@ export default function ServiceConstructor(props) {
 
   function handleGoBackClick() {
     if (formValuesModified) {
-      modalProps.current = modalPropsOnGoBack;
+      setModalProps(modalPropsOnGoBack);
       setModalShow(true);
     } else {
       props.goBack();
@@ -156,7 +156,7 @@ export default function ServiceConstructor(props) {
       </form>
 
       <Modal
-        {...modalProps.current}
+        {...modalProps}
         show={modalShow}
         handleClose={() => {
           setModalShow(false);

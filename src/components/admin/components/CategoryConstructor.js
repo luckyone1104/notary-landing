@@ -15,11 +15,11 @@ export default function CategoryConstructor(props) {
 
   const isEditMode = props.match.params.action === 'edit';
 
+  const [modalProps, setModalProps] = useState();
   const [modalShow, setModalShow] = useState(false);
   const [inputModified, setInputModified] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const modalProps = useRef();
   const titleInput = useRef();
 
   const { category } = getCategoryInfoWithId(useQuery().get('id'));
@@ -40,7 +40,7 @@ export default function CategoryConstructor(props) {
   };
 
   function handleDeleteClick() {
-    modalProps.current = modalPropsOnDelete;
+    setModalProps(modalPropsOnDelete);
     setModalShow(true);
   }
 
@@ -52,7 +52,7 @@ export default function CategoryConstructor(props) {
 
   function handleGoBackClick() {
     if (inputModified) {
-      modalProps.current = modalPropsOnGoBack;
+      setModalProps(modalPropsOnGoBack);
       setModalShow(true);
     } else {
       props.goBack();
@@ -103,7 +103,7 @@ export default function CategoryConstructor(props) {
       </form>
 
       <Modal
-        {...modalProps.current}
+        {...modalProps}
         show={modalShow}
         handleClose={() => {
           setModalShow(false);
