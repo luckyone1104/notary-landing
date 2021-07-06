@@ -45,7 +45,7 @@ export default React.memo(function AdminAccordion(props) {
     const prevElement = element.previousElementSibling;
     if (
       !prevElement ||
-      prevElement.classList.contains('accordion__add-item-button')
+      prevElement.classList.contains('accordion__add-item-link')
     )
       return;
 
