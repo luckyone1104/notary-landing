@@ -69,8 +69,7 @@ export default React.memo(function AdminAccordion(props) {
   );
 });
 
-function AccardionCategory(props) {
-  const { category } = props;
+function AccardionCategory({ category }) {
   return (
     <div movable="" className="accordion__category-wrapper" id={category.id}>
       <button collapse="" type="button" className="accordion__button">
@@ -123,8 +122,7 @@ function AccardionCategory(props) {
   );
 }
 
-function AccardionItem(props) {
-  const { service } = props;
+function AccardionItem({ service }) {
   return (
     <div movable="" className="accordion__item" id={service.id}>
       <div className="accordion__item-name">
