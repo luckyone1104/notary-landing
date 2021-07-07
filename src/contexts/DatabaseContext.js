@@ -48,11 +48,11 @@ export function DatabaseProvider({ children }) {
   }
 
   async function updateCategory(props) {
-    const { categoryeRef } = getCategoryInfoWithId(props.id);
-    if (!categoryeRef) return;
+    const { categoryRef } = getCategoryInfoWithId(props.id);
+    if (!categoryRef) return;
 
     try {
-      await db.ref(categoryeRef).update({ title: props.title });
+      await db.ref(categoryRef).update({ title: props.title });
     } catch (err) {
       console.error(err);
     }

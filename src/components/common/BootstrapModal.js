@@ -1,8 +1,9 @@
+import React from 'react';
 import { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import Loading from './Loading';
 
-export default function BootstrapModal(props) {
+export default React.memo(function BootstrapModal(props) {
   const [loading, setLoading] = useState(false);
 
   return (
@@ -39,4 +40,4 @@ export default function BootstrapModal(props) {
       </Modal.Footer>
     </Modal>
   );
-}
+});

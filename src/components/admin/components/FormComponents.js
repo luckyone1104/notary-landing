@@ -1,4 +1,6 @@
-export function DeleteButton(props) {
+import React from 'react';
+
+export const DeleteButton = React.memo(function DeleteButton(props) {
   return (
     <div className="service-editing__delete-button-wrapper d-flex justify-content-end">
       <button
@@ -10,9 +12,9 @@ export function DeleteButton(props) {
       </button>
     </div>
   );
-}
+});
 
-export function BootstrapInput(props) {
+export const BootstrapInput = React.memo(function BootstrapInput(props) {
   return (
     <div className="mb-3">
       <label htmlFor={'input-' + props.id} className="form-label">
@@ -30,9 +32,9 @@ export function BootstrapInput(props) {
       />
     </div>
   );
-}
+});
 
-export function BootstrapTextarea(props) {
+export const BootstrapTextarea = React.memo(function BootstrapTextarea(props) {
   return (
     <div className="mb-3">
       <label htmlFor={'textarea-' + props.id} className="form-label">
@@ -49,9 +51,9 @@ export function BootstrapTextarea(props) {
       ></textarea>
     </div>
   );
-}
+});
 
-export function FormFooter(props) {
+export const FormFooter = React.memo(function FormFooter(props) {
   return (
     <div className="service-editing__buttons-wrapper d-flex justify-content-around">
       <button
@@ -66,7 +68,7 @@ export function FormFooter(props) {
       <SaveButton disabled={props.disabled} loading={props.loading} />
     </div>
   );
-}
+});
 
 export function SaveButton(props) {
   return (

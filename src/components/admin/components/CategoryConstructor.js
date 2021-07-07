@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react';
 import { useState, useRef } from 'react';
 import { useDatabase } from '../../../contexts/DatabaseContext';
 import useQuery from '../../../helpers/useQuery';
@@ -16,20 +17,25 @@ export default function CategoryConstructor(props) {
   const isEditMode = props.match.params.action === 'edit';
 
   const [modalProps, setModalProps] = useState();
-  const [modalShow, setModalShow] = useState(false);
-  const [inputModified, setInputModified] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const titleInput = useRef();
+  const inputModified = useRef(false);
 
   const { category } = getCategoryInfoWithId(useQuery().get('id'));
 
-  function checkIfTitleModified(e) {
+  const checkIfTitleModified = useCallback(function checkIfTitleModified(e) {
     if (!isEditMode) return;
-    setInputModified(e.currentTarget.value !== category.title);
-  }
+
+    if (!inputModified.current && e.currentTarget.value !== category.title) {
+      inputModified.current = true;
+    } else if (inputModified && e.currentTarget.value === category.title) {
+      inputModified.current = false;
+    }
+  }, []);
 
   const modalPropsOnDelete = {
+    show: true,
     title: 'Бажаєте видалити категорію?',
     body: 'Категорія видалиться з сайту та більше не буде показуватись її користувачам.',
     clickOnSecondButton: async () => {
@@ -39,30 +45,35 @@ export default function CategoryConstructor(props) {
     },
   };
 
-  function handleDeleteClick() {
+  const handleDeleteClick = useCallback(function handleDeleteClick() {
     setModalProps(modalPropsOnDelete);
-    setModalShow(true);
-  }
+  }, []);
 
   const modalPropsOnGoBack = {
+    show: true,
     title: 'Ви впевнені, що хочете повернутися?',
     body: 'Будь-які внесені вами зміни не будуть збережені!',
     clickOnSecondButton: () => props.goBack(),
   };
 
-  function handleGoBackClick() {
-    if (inputModified) {
+  const handleGoBackClick = useCallback(function handleGoBackClick() {
+    if (inputModified.current) {
       setModalProps(modalPropsOnGoBack);
-      setModalShow(true);
     } else {
       props.goBack();
     }
-  }
+  }, []);
+
+  const handleModalClose = useCallback(
+    () => setModalProps({ show: false }),
+    []
+  );
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setLoading(true);
+
     if (!isEditMode) {
+      setLoading(true);
       await createCategory(titleInput.current.value);
       await fetchServiceList();
       props.goBack();
@@ -72,9 +83,10 @@ export default function CategoryConstructor(props) {
   }
 
   async function editCategory(categoryTitle) {
-    if (!inputModified) {
+    if (!inputModified.current) {
       props.goBack();
     } else {
+      setLoading(true);
       await updateCategory({ id: category.id, title: categoryTitle });
       await fetchServiceList();
       props.goBack();
@@ -102,13 +114,7 @@ export default function CategoryConstructor(props) {
         <FormFooter loading={loading} handleClick={handleGoBackClick} />
       </form>
 
-      <Modal
-        {...modalProps}
-        show={modalShow}
-        handleClose={() => {
-          setModalShow(false);
-        }}
-      />
+      <Modal {...modalProps} handleClose={handleModalClose} />
     </div>
   );
 }

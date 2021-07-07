@@ -1,3 +1,4 @@
+import React, { useCallback, useMemo } from 'react';
 import { useState, useRef } from 'react';
 import { useDatabase } from '../../../contexts/DatabaseContext';
 import useQuery from '../../../helpers/useQuery';
@@ -21,18 +22,36 @@ export default function ServiceConstructor(props) {
   const isEditMode = props.match.params.action === 'edit';
 
   const [modalProps, setModalProps] = useState();
-  const [modalShow, setModalShow] = useState(false);
-  const [formValuesModified, setFormValuesModified] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const inputValuesModified = useRef(false);
   const textareaValuesModified = useRef(false);
+  const formValuesModified = useRef(false);
   const titleInput = useRef();
   const textInput = useRef();
 
   const { service, category } = getServiceInfoWithId(useQuery().get('id'));
 
   const categoryId = useQuery().get('category') ?? category.id; // Create mode ?? Edit Mode
+
+  const checkIfInputIsModified = useCallback(function checkIfInputIsModified(
+    e
+  ) {
+    checkIfValueIsModified({
+      value: e.currentTarget.value,
+      initialValue: service?.title,
+      modifiedFlag: inputValuesModified,
+    });
+  },
+  []);
+
+  const checkIfTextIsModified = useCallback(function checkIfTextIsModified(e) {
+    checkIfValueIsModified({
+      value: e.currentTarget.value,
+      initialValue: service?.text,
+      modifiedFlag: textareaValuesModified,
+    });
+  }, []);
 
   function checkIfValueIsModified(props) {
     if (!isEditMode) return;
@@ -41,12 +60,12 @@ export default function ServiceConstructor(props) {
   }
 
   function checkIfFormIsModified() {
-    setFormValuesModified(
-      inputValuesModified.current || textareaValuesModified.current
-    );
+    formValuesModified.current =
+      inputValuesModified.current || textareaValuesModified.current;
   }
 
   const modalPropsOnDelete = {
+    show: true,
     title: 'Бажаєте видалити послугу?',
     body: 'Послуга видалиться з сайту та більше не буде показуватись її користувачам.',
     clickOnSecondButton: async () => {
@@ -59,25 +78,32 @@ export default function ServiceConstructor(props) {
     },
   };
 
-  function handleDeleteClick() {
+  const handleDeleteClick = useCallback(function handleDeleteClick() {
     setModalProps(modalPropsOnDelete);
-    setModalShow(true);
-  }
+  }, []);
 
-  const modalPropsOnGoBack = {
-    title: 'Ви впевнені, що хочете повернутися?',
-    body: 'Будь-які внесені вами зміни не будуть збережені!',
-    clickOnSecondButton: () => props.goBack(),
-  };
+  const modalPropsOnGoBack = useMemo(
+    () => ({
+      show: true,
+      title: 'Ви впевнені, що хочете повернутися?',
+      body: 'Будь-які внесені вами зміни не будуть збережені!',
+      clickOnSecondButton: () => props.goBack(),
+    }),
+    []
+  );
 
-  function handleGoBackClick() {
-    if (formValuesModified) {
+  const handleModalClose = useCallback(
+    () => setModalProps({ show: false }),
+    []
+  );
+
+  const handleGoBackClick = useCallback(function handleGoBackClick() {
+    if (formValuesModified.current) {
       setModalProps(modalPropsOnGoBack);
-      setModalShow(true);
     } else {
       props.goBack();
     }
-  }
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -97,7 +123,7 @@ export default function ServiceConstructor(props) {
   }
 
   async function editService(inputValues) {
-    if (!formValuesModified) {
+    if (!formValuesModified.current) {
       props.goBack();
     } else {
       await updateService({
@@ -125,43 +151,23 @@ export default function ServiceConstructor(props) {
           title="Назва послуги"
           placeholder="Довіреності"
           value={service?.title}
-          checkIfModified={e => {
-            checkIfValueIsModified({
-              value: e.currentTarget.value,
-              initialValue: service?.title,
-              modifiedFlag: inputValuesModified,
-            });
-          }}
+          checkIfModified={checkIfInputIsModified}
         />
 
         <BootstrapTextarea
           inputRef={textInput}
           title="Опис послуги"
           value={service?.text}
-          checkIfModified={e => {
-            checkIfValueIsModified({
-              value: e.currentTarget.value,
-              initialValue: service?.text,
-              modifiedFlag: textareaValuesModified,
-            });
-          }}
+          checkIfModified={checkIfTextIsModified}
         />
 
         <FormFooter //modal footer
-          modalId={modalPropsOnGoBack.id}
-          modified={formValuesModified}
           handleClick={handleGoBackClick}
           loading={loading}
         />
       </form>
 
-      <Modal
-        {...modalProps}
-        show={modalShow}
-        handleClose={() => {
-          setModalShow(false);
-        }}
-      />
+      <Modal {...modalProps} handleClose={handleModalClose} />
     </div>
   );
 }
