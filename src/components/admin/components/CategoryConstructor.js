@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useState, useRef } from 'react';
 import { useDatabase } from '../../../contexts/DatabaseContext';
 import useQuery from '../../../helpers/useQuery';
@@ -34,7 +34,7 @@ export default function CategoryConstructor(props) {
     }
   }, []);
 
-  const modalPropsOnDelete = {
+  const modalPropsOnDelete = useMemo(() => ({
     show: true,
     title: 'Бажаєте видалити категорію?',
     body: 'Категорія видалиться з сайту та більше не буде показуватись її користувачам.',
@@ -43,18 +43,18 @@ export default function CategoryConstructor(props) {
       await fetchServiceList();
       props.goBack();
     },
-  };
+  }));
 
   const handleDeleteClick = useCallback(function handleDeleteClick() {
     setModalProps(modalPropsOnDelete);
   }, []);
 
-  const modalPropsOnGoBack = {
+  const modalPropsOnGoBack = useMemo(() => ({
     show: true,
     title: 'Ви впевнені, що хочете повернутися?',
     body: 'Будь-які внесені вами зміни не будуть збережені!',
     clickOnSecondButton: () => props.goBack(),
-  };
+  }));
 
   const handleGoBackClick = useCallback(function handleGoBackClick() {
     if (inputModified.current) {

@@ -64,7 +64,7 @@ export default function ServiceConstructor(props) {
       inputValuesModified.current || textareaValuesModified.current;
   }
 
-  const modalPropsOnDelete = {
+  const modalPropsOnDelete = useMemo(() => ({
     show: true,
     title: 'Бажаєте видалити послугу?',
     body: 'Послуга видалиться з сайту та більше не буде показуватись її користувачам.',
@@ -76,7 +76,7 @@ export default function ServiceConstructor(props) {
       await fetchServiceList();
       props.goBack();
     },
-  };
+  }));
 
   const handleDeleteClick = useCallback(function handleDeleteClick() {
     setModalProps(modalPropsOnDelete);
