@@ -1,3 +1,4 @@
+import React from 'react';
 import './accordion.css';
 
 export default function Accardion(props) {

@@ -1,3 +1,4 @@
+import React from 'react';
 import './no-match.css';
 
 export default function NoMatch() {

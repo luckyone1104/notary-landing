@@ -25,7 +25,3 @@ yarn-error.log*
 
 # ide
 /.vscode
-
-# lints and formatters
-.eslintrc.json
-.prettierrc.json

@@ -1,5 +1,5 @@
 import './auth.css';
-import { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import Loading from '../common/Loading';
 

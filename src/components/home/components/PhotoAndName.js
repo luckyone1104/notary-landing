@@ -1,3 +1,4 @@
+import React from 'react';
 import './photo-and-name.css';
 import notaryImg from '../../../assets/images/notary.jpg';
 
