@@ -1,10 +1,11 @@
 import React from 'react';
 import { useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
 import { useDatabase } from '../../../contexts/DatabaseContext';
 import AdminAccordion from './AdminAccordion';
 import { SaveButton } from './FormComponents';
 import Loading from '../../common/Loading';
+import CreateCategoryButton from './CreateCategoryButton';
+import LinkToMainPage from './LinkToMainPage';
 
 export default function ServiceList() {
   const [loading, setLoading] = useState(false);
@@ -69,9 +70,7 @@ export default function ServiceList() {
 
   return (
     <div className="content-container admin__container">
-      <Link className="admin__add-category-link" to="admin/create-category">
-        Додати категорію
-      </Link>
+      <CreateCategoryButton />
 
       {serviceList ? (
         <AdminAccordion
@@ -93,9 +92,7 @@ export default function ServiceList() {
           stylingClasses="admin__save-button"
         />
 
-        <Link to="/" className="admin__go-home-link">
-          На головну
-        </Link>
+        <LinkToMainPage />
       </div>
     </div>
   );
