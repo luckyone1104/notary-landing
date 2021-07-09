@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useCallback } from 'react';
 import useLocalStorage from '../helpers/useLocalStorage';
 import { db } from '../api/firebase';
 import areObjectsEqual from '../helpers/areObjectsEqual';
@@ -12,18 +12,22 @@ export function useDatabase() {
 export function DatabaseProvider({ children }) {
   const [serviceList, setServiceList] = useLocalStorage('serviceList');
 
+  const fetchServiceList = useCallback(
+    async function fetchServiceList() {
+      try {
+        const fetchedList = await (await db.ref('serviceList').get()).val();
+        areObjectsEqual(fetchedList, serviceList) ||
+          setServiceList(fetchedList);
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    [serviceList, setServiceList]
+  );
+
   useEffect(() => {
     fetchServiceList();
-  }, []);
-
-  async function fetchServiceList() {
-    try {
-      const fetchedList = await (await db.ref('serviceList').get()).val();
-      areObjectsEqual(fetchedList, serviceList) || setServiceList(fetchedList);
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  }, [fetchServiceList]);
 
   async function updateServiceList(list) {
     try {

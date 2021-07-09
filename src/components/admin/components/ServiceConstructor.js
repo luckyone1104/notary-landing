@@ -34,53 +34,65 @@ export default function ServiceConstructor(props) {
 
   const categoryId = useQuery().get('category') ?? category.id; // Create mode ?? Edit Mode
 
-  const checkIfInputIsModified = useCallback(function checkIfInputIsModified(
-    e
-  ) {
-    checkIfValueIsModified({
-      value: e.currentTarget.value,
-      initialValue: service?.title,
-      modifiedFlag: inputValuesModified,
-    });
-  },
-  []);
+  const checkIfValueIsModified = useCallback(
+    function checkIfValueIsModified(props) {
+      if (!isEditMode) return;
+      props.modifiedFlag.current = props.value !== props.initialValue;
+      checkIfFormIsModified();
+    },
+    [isEditMode]
+  );
 
-  const checkIfTextIsModified = useCallback(function checkIfTextIsModified(e) {
-    checkIfValueIsModified({
-      value: e.currentTarget.value,
-      initialValue: service?.text,
-      modifiedFlag: textareaValuesModified,
-    });
-  }, []);
+  const checkIfInputIsModified = useCallback(
+    function checkIfInputIsModified(e) {
+      checkIfValueIsModified({
+        value: e.currentTarget.value,
+        initialValue: service?.title,
+        modifiedFlag: inputValuesModified,
+      });
+    },
+    [checkIfValueIsModified, service?.title]
+  );
 
-  function checkIfValueIsModified(props) {
-    if (!isEditMode) return;
-    props.modifiedFlag.current = props.value !== props.initialValue;
-    checkIfFormIsModified();
-  }
+  const checkIfTextIsModified = useCallback(
+    function checkIfTextIsModified(e) {
+      checkIfValueIsModified({
+        value: e.currentTarget.value,
+        initialValue: service?.text,
+        modifiedFlag: textareaValuesModified,
+      });
+    },
+    [checkIfValueIsModified, service?.text]
+  );
 
   function checkIfFormIsModified() {
     formValuesModified.current =
       inputValuesModified.current || textareaValuesModified.current;
   }
 
-  const modalPropsOnDelete = useMemo(() => ({
-    show: true,
-    title: 'Бажаєте видалити послугу?',
-    body: 'Послуга видалиться з сайту та більше не буде показуватись її користувачам.',
-    clickOnSecondButton: async () => {
-      await deleteService({
-        categoryId: categoryId,
-        serviceId: service.id,
-      });
-      await fetchServiceList();
-      props.goBack();
-    },
-  }));
+  const modalPropsOnDelete = useMemo(
+    () => ({
+      show: true,
+      title: 'Бажаєте видалити послугу?',
+      body: 'Послуга видалиться з сайту та більше не буде показуватись її користувачам.',
+      clickOnSecondButton: async () => {
+        await deleteService({
+          categoryId: categoryId,
+          serviceId: service?.id,
+        });
+        await fetchServiceList();
+        props.goBack();
+      },
+    }),
+    [props, deleteService, categoryId, fetchServiceList, service?.id]
+  );
 
-  const handleDeleteClick = useCallback(function handleDeleteClick() {
-    setModalProps(modalPropsOnDelete);
-  }, []);
+  const handleDeleteClick = useCallback(
+    function handleDeleteClick() {
+      setModalProps(modalPropsOnDelete);
+    },
+    [modalPropsOnDelete]
+  );
 
   const modalPropsOnGoBack = useMemo(
     () => ({
@@ -89,7 +101,7 @@ export default function ServiceConstructor(props) {
       body: 'Будь-які внесені вами зміни не будуть збережені!',
       clickOnSecondButton: () => props.goBack(),
     }),
-    []
+    [props]
   );
 
   const handleModalClose = useCallback(
@@ -97,13 +109,16 @@ export default function ServiceConstructor(props) {
     []
   );
 
-  const handleGoBackClick = useCallback(function handleGoBackClick() {
-    if (formValuesModified.current) {
-      setModalProps(modalPropsOnGoBack);
-    } else {
-      props.goBack();
-    }
-  }, []);
+  const handleGoBackClick = useCallback(
+    function handleGoBackClick() {
+      if (formValuesModified.current) {
+        setModalProps(modalPropsOnGoBack);
+      } else {
+        props.goBack();
+      }
+    },
+    [props, modalPropsOnGoBack]
+  );
 
   async function handleSubmit(e) {
     e.preventDefault();

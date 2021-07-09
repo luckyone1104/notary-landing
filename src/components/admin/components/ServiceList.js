@@ -20,30 +20,10 @@ export default function ServiceList() {
     setListModified(false);
   }
 
-  const checkIfListIsModified = useCallback(serviceList => {
-    const isModified =
-      JSON.stringify(serviceList) !==
-      JSON.stringify(getReorderedList(serviceList, getDOMList()));
-
-    setListModified(isModified);
-  }, []);
-
-  function getDOMList() {
-    const categories = document.querySelectorAll(
-      '.accordion__category-wrapper'
-    );
-    return Array.from(categories).map((category, index) => {
-      const services = Array.from(
-        categories[index].querySelectorAll('.accordion__item')
-      );
-      return {
-        id: category.id,
-        services: services.map(service => ({ id: service.id })),
-      };
-    });
-  }
-
-  function getReorderedList(originalArr, editedArr) {
+  const getReorderedList = useCallback(function getReorderedList(
+    originalArr,
+    editedArr
+  ) {
     return originalArr.map((item, i) => {
       if (item.id !== editedArr[i].id) {
         const newItem = originalArr.find(item => item.id === editedArr[i].id);
@@ -65,6 +45,33 @@ export default function ServiceList() {
         }
         return item;
       }
+    });
+  },
+  []);
+
+  const checkIfListIsModified = useCallback(
+    serviceList => {
+      const isModified =
+        JSON.stringify(serviceList) !==
+        JSON.stringify(getReorderedList(serviceList, getDOMList()));
+
+      setListModified(isModified);
+    },
+    [getReorderedList]
+  );
+
+  function getDOMList() {
+    const categories = document.querySelectorAll(
+      '.accordion__category-wrapper'
+    );
+    return Array.from(categories).map((category, index) => {
+      const services = Array.from(
+        categories[index].querySelectorAll('.accordion__item')
+      );
+      return {
+        id: category.id,
+        services: services.map(service => ({ id: service.id })),
+      };
     });
   }
 

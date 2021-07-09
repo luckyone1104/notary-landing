@@ -24,45 +24,60 @@ export default function CategoryConstructor(props) {
 
   const { category } = getCategoryInfoWithId(useQuery().get('id'));
 
-  const checkIfTitleModified = useCallback(function checkIfTitleModified(e) {
-    if (!isEditMode) return;
+  const checkIfTitleModified = useCallback(
+    function checkIfTitleModified(e) {
+      if (!isEditMode) return;
 
-    if (!inputModified.current && e.currentTarget.value !== category.title) {
-      inputModified.current = true;
-    } else if (inputModified && e.currentTarget.value === category.title) {
-      inputModified.current = false;
-    }
-  }, []);
-
-  const modalPropsOnDelete = useMemo(() => ({
-    show: true,
-    title: 'Бажаєте видалити категорію?',
-    body: 'Категорія видалиться з сайту та більше не буде показуватись її користувачам.',
-    clickOnSecondButton: async () => {
-      await deleteCategory(category.id);
-      await fetchServiceList();
-      props.goBack();
+      if (!inputModified.current && e.currentTarget.value !== category.title) {
+        inputModified.current = true;
+      } else if (inputModified && e.currentTarget.value === category.title) {
+        inputModified.current = false;
+      }
     },
-  }));
+    [isEditMode, category?.title]
+  );
 
-  const handleDeleteClick = useCallback(function handleDeleteClick() {
-    setModalProps(modalPropsOnDelete);
-  }, []);
+  const modalPropsOnDelete = useMemo(
+    () => ({
+      show: true,
+      title: 'Бажаєте видалити категорію?',
+      body: 'Категорія видалиться з сайту та більше не буде показуватись її користувачам.',
+      clickOnSecondButton: async () => {
+        await deleteCategory(category?.id);
+        await fetchServiceList();
+        props.goBack();
+      },
+    }),
+    [props, deleteCategory, category?.id, fetchServiceList]
+  );
 
-  const modalPropsOnGoBack = useMemo(() => ({
-    show: true,
-    title: 'Ви впевнені, що хочете повернутися?',
-    body: 'Будь-які внесені вами зміни не будуть збережені!',
-    clickOnSecondButton: () => props.goBack(),
-  }));
+  const handleDeleteClick = useCallback(
+    function handleDeleteClick() {
+      setModalProps(modalPropsOnDelete);
+    },
+    [modalPropsOnDelete]
+  );
 
-  const handleGoBackClick = useCallback(function handleGoBackClick() {
-    if (inputModified.current) {
-      setModalProps(modalPropsOnGoBack);
-    } else {
-      props.goBack();
-    }
-  }, []);
+  const modalPropsOnGoBack = useMemo(
+    () => ({
+      show: true,
+      title: 'Ви впевнені, що хочете повернутися?',
+      body: 'Будь-які внесені вами зміни не будуть збережені!',
+      clickOnSecondButton: () => props.goBack(),
+    }),
+    [props]
+  );
+
+  const handleGoBackClick = useCallback(
+    function handleGoBackClick() {
+      if (inputModified.current) {
+        setModalProps(modalPropsOnGoBack);
+      } else {
+        props.goBack();
+      }
+    },
+    [props, modalPropsOnGoBack]
+  );
 
   const handleModalClose = useCallback(
     () => setModalProps({ show: false }),
