@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDatabase } from '../../../contexts/DatabaseContext';
 import './admin-accordion.css';
 import arrowUp from '../../../assets/images/arrow-up.svg';
 import arrowDown from '../../../assets/images/arrow-down.svg';
@@ -8,13 +7,19 @@ import pencil from '../../../assets/images/pencil.svg';
 import { Link } from 'react-router-dom';
 
 export default React.memo(function AdminAccordion(props) {
-  const { serviceList } = useDatabase();
+  const {
+    workInProgressList,
+    setWorkInProgressList,
+    listModified,
+    setListModified,
+    initialListValue,
+  } = props;
 
   function handleClick(e) {
     if (e.target.hasAttribute('collapse')) {
       collapse(e.target);
     } else if (e.target.hasAttribute('move')) {
-      moveHTMLElement(e.target);
+      reorderList(e.target);
     }
   }
 
@@ -30,44 +35,99 @@ export default React.memo(function AdminAccordion(props) {
     }
   }
 
-  function moveHTMLElement(arrowButton) {
-    if (props.loading) return;
-
-    const element = arrowButton.closest('[movable]');
-    const parent = element.closest('[movable-parent]');
-    const direction = arrowButton.getAttribute('move');
-
-    if (direction === 'up') {
-      moveElementUp(element, parent);
-    } else if (direction === 'down') moveElementDown(element, parent);
-
-    props.checkIfListIsModified(serviceList);
-  }
-
-  function moveElementUp(element, parent) {
-    const prevElement = element.previousElementSibling;
+  function reorderList(button) {
+    const isDirectionUp = button.getAttribute('move') === 'up';
+    const item = button.closest('[movable]');
     if (
-      !prevElement ||
-      prevElement.classList.contains('accordion__add-item-link')
+      isDirectionUp & !hasItemAbove(item) ||
+      !isDirectionUp & !hasItemBelow(item)
     )
       return;
 
-    parent.insertBefore(element, prevElement);
+    const reorderedList = getReorderedList({ item, isDirectionUp });
+
+    setWorkInProgressList(reorderedList);
+    markListAsModified(reorderedList);
   }
 
-  function moveElementDown(element, parent) {
-    const nextElement = element.nextElementSibling.nextElementSibling;
-    nextElement && parent.insertBefore(element, nextElement);
+  function hasItemAbove(item) {
+    return item.previousElementSibling?.hasAttribute('movable');
+  }
+
+  function hasItemBelow(item) {
+    return item.nextElementSibling?.hasAttribute('movable');
+  }
+
+  function getReorderedList({ item, isDirectionUp }) {
+    let category = workInProgressList.find(category => category.id === item.id);
+    let service = category
+      ? null
+      : workInProgressList.find(category => category.id === item.id) ||
+        workInProgressList.reduce(
+          (prev, currentArray) =>
+            prev ||
+            currentArray.services?.find(service => {
+              category = currentArray;
+              return service.id === item.id;
+            }),
+          null
+        );
+
+    let indexOfFirstItem;
+    let indexOfSecondItem;
+    const arrayForSwapping = service ? category.services : workInProgressList;
+
+    indexOfFirstItem = service
+      ? category.services.indexOf(service)
+      : workInProgressList.indexOf(category);
+    indexOfSecondItem = isDirectionUp
+      ? indexOfFirstItem - 1
+      : indexOfFirstItem + 1;
+
+    const arrayWithSwappedItems = swapItemsInArray(
+      arrayForSwapping,
+      indexOfFirstItem,
+      indexOfSecondItem
+    );
+
+    let editedList;
+
+    if (service) {
+      editedList = workInProgressList.slice();
+      editedList[editedList.indexOf(category)].services = arrayWithSwappedItems;
+    } else {
+      editedList = arrayWithSwappedItems;
+    }
+
+    return editedList;
+  }
+
+  function swapItemsInArray(array, firstIndex, secondIndex) {
+    const newArr = array.slice();
+    const temp = newArr[firstIndex];
+    newArr[firstIndex] = newArr[secondIndex];
+    newArr[secondIndex] = temp;
+    return newArr;
+  }
+
+  function markListAsModified(reorderedList) {
+    const isModified =
+      JSON.stringify(initialListValue.current) !==
+      JSON.stringify(reorderedList);
+
+    if (!listModified && isModified) {
+      setListModified(isModified);
+    } else if (listModified && !isModified) {
+      setListModified(isModified);
+    }
   }
 
   return (
     <div onClick={handleClick} movable-parent="" className="accordion__wrapper">
-      {props.categories &&
-        props.categories.map(category => {
+      {workInProgressList &&
+        workInProgressList.map(category => {
           return <AccardionCategory key={category.id} category={category} />;
         })}
-      <div />{' '}
-      {/*Empty div makes it posiible for element to move into the last position*/}
     </div>
   );
 });
@@ -118,8 +178,6 @@ function AccardionCategory({ category }) {
           category.services.map(service => {
             return <AccardionItem key={service.id} service={service} />;
           })}
-        <div />{' '}
-        {/*Empty div makes it posiible for element to move into the last position*/}
       </div>
     </div>
   );
