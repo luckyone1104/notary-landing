@@ -61,7 +61,7 @@ function AccordionItem(props) {
   );
 }
 
-AccordionItem.PropTypes = {
+AccordionItem.propTypes = {
   parent: PropTypes.string,
   service: PropTypes.objectOf(PropTypes.string),
 };
