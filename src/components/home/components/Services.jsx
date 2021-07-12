@@ -1,10 +1,10 @@
 import './services.css';
 import React from 'react';
-import Accardion from './Accordion';
-import Loading from '../../common/Loading';
-import { useDatabase } from '../../../contexts/DatabaseContext';
-import { useAuth } from '../../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
+import { useDatabase } from '../../../contexts/DatabaseContext.jsx';
+import { useAuth } from '../../../contexts/AuthContext';
+import Accardion from './Accordion.jsx';
+import Loading from '../../common/Loading.jsx';
 
 export default function Services() {
   const { currentUser } = useAuth();

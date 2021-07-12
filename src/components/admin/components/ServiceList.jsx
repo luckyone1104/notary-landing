@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { useDatabase } from '../../../contexts/DatabaseContext';
-import AdminAccordion from './AdminAccordion';
-import { SaveButton } from './FormComponents';
-import Loading from '../../common/Loading';
-import CreateCategoryButton from './CreateCategoryButton';
-import LinkToMainPage from './LinkToMainPage';
+import { useDatabase } from '../../../contexts/DatabaseContext.jsx';
+import AdminAccordion from './AdminAccordion.jsx';
+import { SaveButton } from './FormComponents.jsx';
+import Loading from '../../common/Loading.jsx';
+import CreateCategoryButton from './CreateCategoryButton.jsx';
+import LinkToMainPage from './LinkToMainPage.jsx';
 
 export default function ServiceList() {
   const [loading, setLoading] = useState(false);

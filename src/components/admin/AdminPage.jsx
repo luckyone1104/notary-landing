@@ -3,10 +3,10 @@ import './components/constructor.css';
 import React from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import ServiceList from './components/ServiceList';
-import CategoryConstructor from './components/CategoryConstructor';
-import ServiceEditing from './components/ServiceConstructor';
-import Loading from '../common/Loading';
+import ServiceList from './components/ServiceList.jsx';
+import CategoryConstructor from './components/CategoryConstructor.jsx';
+import ServiceEditing from './components/ServiceConstructor.jsx';
+import Loading from '../common/Loading.jsx';
 
 export default function AdminPage() {
   const { currentUser: user } = useAuth();

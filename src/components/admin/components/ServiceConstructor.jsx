@@ -1,14 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
 import { useState, useRef } from 'react';
-import { useDatabase } from '../../../contexts/DatabaseContext';
+import { useDatabase } from '../../../contexts/DatabaseContext.jsx';
 import useQuery from '../../../helpers/useQuery';
-import Modal from '../../common/BootstrapModal';
+import Modal from '../../common/BootstrapModal.jsx';
 import {
   DeleteButton,
   BootstrapInput,
   BootstrapTextarea,
   FormFooter,
-} from './FormComponents';
+} from './FormComponents.jsx';
 
 export default function ServiceConstructor(props) {
   const {

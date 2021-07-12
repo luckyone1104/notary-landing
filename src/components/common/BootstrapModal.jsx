@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import Loading from './Loading';
+import Loading from './Loading.jsx';
 
 export default React.memo(function BootstrapModal(props) {
   const [loading, setLoading] = useState(false);

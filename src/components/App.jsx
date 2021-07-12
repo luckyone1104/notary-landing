@@ -1,14 +1,14 @@
 import React from 'react';
-import { DatabaseProvider } from '../contexts/DatabaseContext';
-import { AuthProvider } from '../contexts/AuthContext';
-import PrivateRoute from '../routes/PrivateRoute';
-import Loading from './common/Loading';
 import { Switch, Route } from 'react-router-dom';
+import { DatabaseProvider } from '../contexts/DatabaseContext.jsx';
+import { AuthProvider } from '../contexts/AuthContext';
+import PrivateRoute from '../routes/PrivateRoute.jsx';
+import Loading from './common/Loading.jsx';
 
-const HomePage = React.lazy(() => import('./home/HomePage'));
-const AuthPage = React.lazy(() => import('./auth/AuthPage'));
-const AdminPage = React.lazy(() => import('./admin/AdminPage'));
-const NoMatch = React.lazy(() => import('./no-match/NoMatch'));
+const HomePage = React.lazy(() => import('./home/HomePage.jsx'));
+const AuthPage = React.lazy(() => import('./auth/AuthPage.jsx'));
+const AdminPage = React.lazy(() => import('./admin/AdminPage.jsx'));
+const NoMatch = React.lazy(() => import('./no-match/NoMatch.jsx'));
 
 export default function App() {
   return (

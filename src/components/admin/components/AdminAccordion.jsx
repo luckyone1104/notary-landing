@@ -3,7 +3,6 @@ import './admin-accordion.css';
 import arrowUp from '../../../assets/images/arrow-up.svg';
 import arrowDown from '../../../assets/images/arrow-down.svg';
 import pencil from '../../../assets/images/pencil.svg';
-
 import { Link } from 'react-router-dom';
 
 export default React.memo(function AdminAccordion(props) {

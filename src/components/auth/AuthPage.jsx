@@ -1,9 +1,8 @@
 import './auth.css';
 import React, { useState, useRef } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import Loading from '../common/Loading';
-
 import { Route, Redirect } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import Loading from '../common/Loading.jsx';
 
 export default function LoginPage() {
   const [error, setError] = useState('');
