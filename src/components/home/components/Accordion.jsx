@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './accordion.css';
 
-export default function Accardion(props) {
+function Accordion(props) {
   const category = props.category;
   return (
     <div className="services__category">
@@ -24,6 +25,14 @@ export default function Accardion(props) {
     </div>
   );
 }
+
+Accordion.propTypes = {
+  category: PropTypes.shape({
+    id: PropTypes.string,
+    services: PropTypes.arrayOf(PropTypes.object),
+    title: PropTypes.string,
+  }),
+};
 
 function AccordionItem(props) {
   return (
@@ -52,4 +61,10 @@ function AccordionItem(props) {
   );
 }
 
+AccordionItem.PropTypes = {
+  parent: PropTypes.string,
+  service: PropTypes.objectOf(PropTypes.string),
+};
+
+export default Accordion;
 export { AccordionItem };
