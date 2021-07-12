@@ -58,7 +58,11 @@ function AccordionCategory({ category }) {
 }
 
 AccordionCategory.propTypes = {
-  category: PropTypes.object,
+  category: PropTypes.shape({
+    id: PropTypes.string,
+    services: PropTypes.arrayOf(PropTypes.object),
+    title: PropTypes.string,
+  }),
 };
 
 export default AccordionCategory;

@@ -26,10 +26,10 @@ function AdminAccordion(props) {
 }
 
 AdminAccordion.propTypes = {
-  initialListValue: PropTypes.object,
+  initialListValue: PropTypes.shape({ current: PropTypes.array }),
   listModified: PropTypes.bool,
   setListModified: PropTypes.func,
-  workInProgressList: PropTypes.array,
+  workInProgressList: PropTypes.arrayOf(PropTypes.object),
   setWorkInProgressList: PropTypes.func,
 };
 

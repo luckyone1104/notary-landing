@@ -26,7 +26,7 @@ function AccordionItem({ service }) {
 }
 
 AccordionItem.propTypes = {
-  service: PropTypes.object,
+  service: PropTypes.objectOf(PropTypes.string),
 };
 
 export default AccordionItem;
