@@ -1,123 +1,20 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import useAdminAccordion from './useAdminAccordion';
 import './admin-accordion.css';
 import arrowUp from '../../../assets/images/arrow-up.svg';
 import arrowDown from '../../../assets/images/arrow-down.svg';
 import pencil from '../../../assets/images/pencil.svg';
-import { Link } from 'react-router-dom';
 
 export default React.memo(function AdminAccordion(props) {
-  const {
-    workInProgressList,
-    setWorkInProgressList,
-    listModified,
-    setListModified,
-    initialListValue,
-  } = props;
+  const { workInProgressList } = props;
+  const { collapse, reorderList } = useAdminAccordion();
 
   function handleClick(e) {
     if (e.target.hasAttribute('collapse')) {
       collapse(e.target);
     } else if (e.target.hasAttribute('move')) {
-      reorderList(e.target);
-    }
-  }
-
-  function collapse(button) {
-    const content = button.classList.contains('accordion__button')
-      ? button.nextElementSibling
-      : button.parentNode.nextElementSibling;
-
-    if (content.style.maxHeight) {
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + 'px';
-    }
-  }
-
-  function reorderList(button) {
-    const isDirectionUp = button.getAttribute('move') === 'up';
-    const item = button.closest('[movable]');
-    if (
-      isDirectionUp & !hasItemAbove(item) ||
-      !isDirectionUp & !hasItemBelow(item)
-    )
-      return;
-
-    const reorderedList = getReorderedList({ item, isDirectionUp });
-
-    setWorkInProgressList(reorderedList);
-    markListAsModified(reorderedList);
-  }
-
-  function hasItemAbove(item) {
-    return item.previousElementSibling?.hasAttribute('movable');
-  }
-
-  function hasItemBelow(item) {
-    return item.nextElementSibling?.hasAttribute('movable');
-  }
-
-  function getReorderedList({ item, isDirectionUp }) {
-    let category = workInProgressList.find(category => category.id === item.id);
-    let service = category
-      ? null
-      : workInProgressList.find(category => category.id === item.id) ||
-        workInProgressList.reduce(
-          (prev, currentArray) =>
-            prev ||
-            currentArray.services?.find(service => {
-              category = currentArray;
-              return service.id === item.id;
-            }),
-          null
-        );
-
-    let indexOfFirstItem;
-    let indexOfSecondItem;
-    const arrayForSwapping = service ? category.services : workInProgressList;
-
-    indexOfFirstItem = service
-      ? category.services.indexOf(service)
-      : workInProgressList.indexOf(category);
-    indexOfSecondItem = isDirectionUp
-      ? indexOfFirstItem - 1
-      : indexOfFirstItem + 1;
-
-    const arrayWithSwappedItems = swapItemsInArray(
-      arrayForSwapping,
-      indexOfFirstItem,
-      indexOfSecondItem
-    );
-
-    let editedList;
-
-    if (service) {
-      editedList = workInProgressList.slice();
-      editedList[editedList.indexOf(category)].services = arrayWithSwappedItems;
-    } else {
-      editedList = arrayWithSwappedItems;
-    }
-
-    return editedList;
-  }
-
-  function swapItemsInArray(array, firstIndex, secondIndex) {
-    const newArr = array.slice();
-    const temp = newArr[firstIndex];
-    newArr[firstIndex] = newArr[secondIndex];
-    newArr[secondIndex] = temp;
-    return newArr;
-  }
-
-  function markListAsModified(reorderedList) {
-    const isModified =
-      JSON.stringify(initialListValue.current) !==
-      JSON.stringify(reorderedList);
-
-    if (!listModified && isModified) {
-      setListModified(isModified);
-    } else if (listModified && !isModified) {
-      setListModified(isModified);
+      reorderList(e.target, props);
     }
   }
 
